@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 class AccountDetails {
     private long phoneNumber;
-    private static int accountNumberCounter = phoneNumber;
+    private static int accountNumberCounter = 10000;
     private int accountNumber;
     private String userName;
     private int age;
@@ -12,15 +12,15 @@ class AccountDetails {
     private double balance;
 
     public AccountDetails(String userName, int age, int pin, long adhaarNumber, double initialBalance) {
-        this.phonenumber = phoneNumber
-        this.accountNumber = accountNumberCounter + 110;
+        this.phoneNumber = phoneNumber;
+        this.accountNumber = accountNumberCounter++;
         this.userName = userName;
         this.age = age;
         this.pin = pin;
         this.adhaarNumber = adhaarNumber;
         this.balance = initialBalance;
     }
-     public int getphoneNumber() {
+     public long getphoneNumber() {
         return phoneNumber;
     }
 
@@ -239,3 +239,4 @@ public class Main {
         return null;
     }
 }
+
