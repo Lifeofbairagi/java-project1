@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class AccountDetails {
-    private static int accountNumberCounter = 1000;
+    private long phoneNumber;
+    private static int accountNumberCounter = phoneNumber;
     private int accountNumber;
     private String userName;
     private int age;
@@ -11,12 +12,16 @@ class AccountDetails {
     private double balance;
 
     public AccountDetails(String userName, int age, int pin, long adhaarNumber, double initialBalance) {
-        this.accountNumber = accountNumberCounter++;
+        this.phonenumber = phoneNumber
+        this.accountNumber = accountNumberCounter + 110;
         this.userName = userName;
         this.age = age;
         this.pin = pin;
         this.adhaarNumber = adhaarNumber;
         this.balance = initialBalance;
+    }
+     public int getphoneNumber() {
+        return phoneNumber;
     }
 
     public int getAccountNumber() {
@@ -61,6 +66,7 @@ class AccountDetails {
         System.out.println("Age: " + age);
         System.out.println("Adhaar Number: " + adhaarNumber);
         System.out.println("Balance: " + balance);
+        System.out.println("phone: " + phoneNumber);
     }
 }
 
@@ -124,6 +130,8 @@ public class Main {
         int pin = scanner.nextInt();
         System.out.print("Enter Aadhaar Number: ");
         long adhaarNumber = scanner.nextLong();
+        System.out.print("Enter phone number: ");
+        long phoneNumber = scanner.nextLong();
         System.out.print("Enter Initial Balance: ");
         double initialBalance = scanner.nextDouble();
         AccountDetails account = new AccountDetails(userName, age, pin, adhaarNumber, initialBalance);
