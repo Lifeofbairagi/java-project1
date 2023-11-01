@@ -12,7 +12,7 @@ class AccountDetails {
     private String age;
     private String aadhaarNumber;
     private String phoneNumber;
-    private String balance;
+    public static String balance;
 
     public AccountDetails(String accountNumber, String userName, String age, String aadhaarNumber, String phoneNumber, String balance) {
         this.accountNumber = accountNumber;
@@ -23,7 +23,6 @@ class AccountDetails {
         this.balance = balance;
     }
 
-    // Getters and setters for account details
 
     public String getAccountNumber() {
         return accountNumber;
@@ -50,14 +49,15 @@ class AccountDetails {
     }
 
     void withdraw(double withdrawalAmount) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     void deposit(double depositAmount) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }
 
+// Create a subclass for SavingsAccount
 class SavingsAccount extends AccountDetails {
     private String interestRate;
 
@@ -191,15 +191,6 @@ public class BankManagementSystemGUI extends JFrame {
             }
         });
 
-        // Transfer button
-        JButton transferButton = new JButton("Transfer");
-        inputPanel.add(transferButton);
-        transferButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                transfer();
-            }
-        });
         // Create Savings Account button
         JButton createSavingsAccountButton = new JButton("Create Savings Account");
         inputPanel.add(createSavingsAccountButton);
@@ -247,13 +238,13 @@ public class BankManagementSystemGUI extends JFrame {
         // Remove the account from the list
         accounts.remove(account);
 
-        // Clear the input field
+        // Clear the input
         accountNumberField.setText("");
 
-        // Display a success message
+      
         outputTextArea.append("Account " + accountNumberToDelete + " deleted successfully.\n");
     } else {
-        // Display an error message
+        
         outputTextArea.append("Account not found.\n");
     }
 }
@@ -265,7 +256,7 @@ private void displayAccountDetails() {
     AccountDetails account = findAccount(accountNumberToDetails);
 
     if (account != null) {
-        // Display account details in the text area
+        // Display account details 
         outputTextArea.append("Account Number: " + account.getAccountNumber() + "\n");
         outputTextArea.append("User Name: " + account.getUserName() + "\n");
         outputTextArea.append("Age: " + account.getAge() + "\n");
@@ -273,64 +264,7 @@ private void displayAccountDetails() {
         outputTextArea.append("Phone Number: " + account.getPhoneNumber() + "\n");
         outputTextArea.append("Balance: " + account.getBalance() + "\n");
     } else {
-        // Display an error message
-        outputTextArea.append("Account not found.\n");
-    }
-}
-
-private void withdraw() {
-    String accountNumberToWithdraw = accountNumberField.getText();
-    String withdrawalAmountText = actionAmountField.getText();
-
-    // Find the account by account number
-    AccountDetails account = findAccount(accountNumberToWithdraw);
-
-    if (account != null) {
-        try {
-            double withdrawalAmount = Double.parseDouble(withdrawalAmountText);
-
-            if (account.getBalance() < withdrawalAmount) {
-                // Insufficient funds
-                outputTextArea.append("Insufficient funds.\n");
-            } else {
-                // Withdrawal successful
-                account.withdraw(withdrawalAmount);
-
-                // Display the new balance
-                outputTextArea.append("Withdrawal successful. New balance: " + account.getBalance() + "\n");
-            }
-        } catch (NumberFormatException e) {
-            // Invalid amount
-            outputTextArea.append("Invalid withdrawal amount.\n");
-        }
-    } else {
-        // Account not found
-        outputTextArea.append("Account not found.\n");
-    }
-}
-
-private void deposit() {
-    String accountNumberToDeposit = accountNumberField.getText();
-    String depositAmountText = actionAmountField.getText();
-
-    // Find the account by account number
-    AccountDetails account = findAccount(accountNumberToDeposit);
-
-    if (account != null) {
-        try {
-            double depositAmount = Double.parseDouble(depositAmountText);
-
-            // Deposit successful
-            account.deposit(depositAmount);
-
-            // Display the new balance
-            outputTextArea.append("Deposit successful. New balance: " + account.getBalance() + "\n");
-        } catch (NumberFormatException e) {
-            // Invalid amount
-            outputTextArea.append("Invalid deposit amount.\n");
-        }
-    } else {
-        // Account not found
+        
         outputTextArea.append("Account not found.\n");
     }
 }
@@ -346,13 +280,11 @@ private void balanceInquiry() {
         outputTextArea.append("Account Number: " + account.getAccountNumber() + "\n");
         outputTextArea.append("Balance: " + account.getBalance() + "\n");
     } else {
-        // Account not found
         outputTextArea.append("Account not found.\n");
     }
 }
 
-
-// Helper method to find an account by account number
+//  method to find an account by account number
 private AccountDetails findAccount(String accountNumber) {
     for (AccountDetails account : accounts) {
         if (account.getAccountNumber().equals(accountNumber)) {
@@ -361,35 +293,39 @@ private AccountDetails findAccount(String accountNumber) {
     }
     return null;
 }
-void withdraw(double withdrawalAmount) {
-        try {
-            String balance = null;
-            double amount = Double.parseDouble(balance);
-            if (amount >= withdrawalAmount) {
-                amount -= withdrawalAmount;
-                balance = String.valueOf(amount);
-            } else {
-                // Insufficient funds
-                System.out.println("Insufficient funds.");
-            }
-        } catch (NumberFormatException e) {
-            // Invalid amount
-            System.out.println("Invalid withdrawal amount.");
-        }
-    }
+void withdraw() {
+    try {
+        double withdrawalAmount = Double.parseDouble(actionAmountField.getText());
+        double currentBalance = Double.parseDouble(AccountDetails.balance);
 
-    // Implement the deposit method
-    void deposit(double depositAmount) {
-        try {
-            String balance = null;
-            double amount = Double.parseDouble(balance);
-            amount += depositAmount;
-            balance = String.valueOf(amount);
-        } catch (NumberFormatException e) {
-            // Invalid amount
-            System.out.println("Invalid deposit amount.");
+        if (currentBalance >= withdrawalAmount) {
+            currentBalance -= withdrawalAmount;
+            AccountDetails.balance = String.valueOf(currentBalance);
+            outputTextArea.append("Withdrawal successful. New balance: " + AccountDetails.balance + "\n");
+        } else {
+          
+            outputTextArea.append("Insufficient funds.\n");
         }
+    } catch (NumberFormatException e) {
+    
+        outputTextArea.append("Invalid withdrawal amount.\n");
     }
+}
+
+void deposit() {
+    try {
+        double depositAmount = Double.parseDouble(actionAmountField.getText());
+        double currentBalance = Double.parseDouble(AccountDetails.balance);
+
+        currentBalance += depositAmount;
+        AccountDetails.balance = String.valueOf(currentBalance);
+        outputTextArea.append("Deposit successful. New balance: " + AccountDetails.balance + "\n");
+    } catch (NumberFormatException e) {
+     
+        outputTextArea.append("Invalid deposit amount.\n");
+    }
+}
+
       private void createAccount() {
         String accountNumber = accountNumberField.getText();
         String userName = userNameField.getText();
@@ -405,7 +341,7 @@ void withdraw(double withdrawalAmount) {
             AccountDetails account = new AccountDetails(accountNumber, userName, age, aadhaarNumber, phoneNumber, String.valueOf(initialBalanceAmount));
             accounts.add(account);
 
-            // Clear the input fields
+            // Clear the input 
             accountNumberField.setText("");
             userNameField.setText("");
             ageField.setText("");
@@ -413,10 +349,9 @@ void withdraw(double withdrawalAmount) {
             phoneNumberField.setText("");
             balanceField.setText("");
 
-            // Display a success message
             outputTextArea.append("Account created successfully.\n");
         } catch (NumberFormatException e) {
-            // Handle invalid initial balance
+            
             outputTextArea.append("Invalid initial balance.\n");
         }
     }
@@ -439,7 +374,7 @@ void withdraw(double withdrawalAmount) {
             SavingsAccount savingsAccount = new SavingsAccount(accountNumber, userName, age, aadhaarNumber, phoneNumber, String.valueOf(initialBalanceAmount), String.valueOf(interestRateAmount));
             accounts.add(savingsAccount);
 
-            // Clear the input fields
+            // Clear the input 
             accountNumberField.setText("");
             userNameField.setText("");
             ageField.setText("");
@@ -448,10 +383,8 @@ void withdraw(double withdrawalAmount) {
             balanceField.setText("");
             actionAmountField.setText("");
 
-            // Display a success message
             outputTextArea.append("Savings account created successfully.\n");
         } catch (NumberFormatException e) {
-            // Handle invalid initial balance or interest rate
             outputTextArea.append("Invalid initial balance or interest rate.\n");
         }
     }
@@ -474,7 +407,7 @@ void withdraw(double withdrawalAmount) {
             CurrentAccount currentAccount = new CurrentAccount(accountNumber, userName, age, aadhaarNumber, phoneNumber, String.valueOf(initialBalanceAmount), String.valueOf(overdraftLimitAmount));
             accounts.add(currentAccount);
 
-            // Clear the input fields
+            // Clear the input 
             accountNumberField.setText("");
             userNameField.setText("");
             ageField.setText("");
@@ -483,47 +416,9 @@ void withdraw(double withdrawalAmount) {
             balanceField.setText("");
             actionAmountField.setText("");
 
-            // Display a success message
             outputTextArea.append("Current account created successfully.\n");
         } catch (NumberFormatException e) {
-            // Handle invalid initial balance or overdraft limit
             outputTextArea.append("Invalid initial balance or overdraft limit.\n");
         }
-    }
-
-    private void transfer() {
-        String sourceAccountNumberText = accountNumberField.getText();
-        String destinationAccountNumberText = actionAmountField.getText();
-
-        // Find the source and destination accounts by account number
-        AccountDetails sourceAccount = findAccount(sourceAccountNumberText);
-        AccountDetails destinationAccount = findAccount(destinationAccountNumberText);
-
-        if (sourceAccount != null && destinationAccount != null) {
-            try {
-                double transferAmount = Double.parseDouble(actionAmountField.getText());
-
-                // Check if source account has sufficient balance
-                double sourceBalance = Double.parseDouble(sourceAccount.getBalance());
-
-                if (sourceBalance >= transferAmount) {
-                    // Perform the transfer
-                    sourceAccount.withdraw(transferAmount);
-                    destinationAccount.deposit(transferAmount);
-
-                    // Display success message
-                    outputTextArea.append("Transfer successful.\n");
-                } else {
-                    // Insufficient funds in the source account
-                    outputTextArea.append("Insufficient funds in the source account.\n");
-                }
-            } catch (NumberFormatException e) {
-                // Handle invalid transfer amount
-                outputTextArea.append("Invalid transfer amount.\n");
-            }
-        } else {
-            // Source or destination account not found
-            outputTextArea.append("Source or destination account not found.\n");
-        } 
     }
 }
